@@ -34,10 +34,10 @@ jobs:
     - name: Test with pytest
       run: |
         pytest
-    - name: Run Python script and save to home directory
+    - name: Move CSV and JSON files to a different directory (optional)
       run: |
-        python xmap-stats.py  # Replace with the actual script name
-        mv xenmaps_messages.csv ~/  # Move the script output to the home directory
+        mv xenmaps_messages.csv ~/new_location/xenmaps_messages.csv
+        mv xenmaps.json ~/new_location/xenmaps.json
 
     - name: Upload output artifact
       uses: actions/upload-artifact@v2
