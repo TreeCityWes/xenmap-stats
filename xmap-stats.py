@@ -64,5 +64,5 @@ except Exception as e:
     print(f"Error fetching total supply from the contract: {e}")
     exit()
 
-# Run CSV creation
+# Run CSV creation 
 create_csv_file()
