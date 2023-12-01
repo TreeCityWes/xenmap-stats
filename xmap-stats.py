@@ -66,3 +66,5 @@ except Exception as e:
 
 # Run CSV creation
 create_csv_file()
+
+sys.exit(0)  # Exit gracefully with a success code
