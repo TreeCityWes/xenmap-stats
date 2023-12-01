@@ -19,24 +19,18 @@ jobs:
           python-version: 3.x  # Replace with your desired Python version
 
       - name: Install dependencies (if needed)
-        run: |
-          pip install -r requirements.txt  # Replace with your requirements file if you have one
-        working-directory:  ${{ github.workspace }}
-      - name: Run xmap-stats.py
-        run: |
-          python xmap-stats.py
-        working-directory: ${{ github.workspace }}  # This is the root of your repository
-
-      - name: Save CSV and JSON artifacts
-        if: success()  # Only run this step if the previous step was successful
-        run: |
-          cp xenmaps_messages.csv ${{ github.workspace }}/xenmaps_messages.csv
-          cp xenmaps.json ${{ github.workspace }}/xenmaps.json
+        run: pip install -r requirements.txt  # Replace with your requirements file if you have one
         working-directory: ${{ github.workspace }}
+
+      - name: Run xmap-stats.py
+        run: python xmap-stats.py
+        working-directory: ${{ github.workspace }}  # This is the root of your repository
 
       - name: Upload CSV and JSON artifacts
         if: success()  # Only run this step if the previous step was successful
         uses: actions/upload-artifact@v2
         with:
           name: xenmaps-artifacts
-          path: xenmaps_messages.csv, xenmaps.json
+          path: |
+            xenmaps_messages.csv
+            xenmaps.json
