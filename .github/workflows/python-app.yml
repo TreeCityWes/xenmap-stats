@@ -21,8 +21,7 @@ jobs:
       - name: Install dependencies (if needed)
         run: |
           pip install -r requirements.txt  # Replace with your requirements file if you have one
-        working-directory: path/to/requirements  # Replace with the directory containing requirements.txt
-
+        working-directory:  ${{ github.workspace }}
       - name: Run xmap-stats.py
         run: |
           python xmap-stats.py
