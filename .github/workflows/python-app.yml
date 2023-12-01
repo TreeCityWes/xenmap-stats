@@ -19,11 +19,6 @@ jobs:
 
       - name: Run xmap-stats.py
         run: python xmap-stats.py
-        working-directory: ${{ github.workspace }}  # This sets the working directory to the root of your repository
-
-
-      - name: Run xmap-stats.py
-        run: python xmap-stats.py
         working-directory: ${{ github.workspace }}
 
       - name: Upload CSV and JSON artifacts
