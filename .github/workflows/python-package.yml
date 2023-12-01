@@ -24,4 +24,4 @@ jobs:
         # pip install .
 
     - name: Run Script
-      run: python -m your_package.xmap-stats  # Run your script as a module
+      run: python3 -m your_package.xmap-stats  # Run your script as a module
