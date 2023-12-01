@@ -17,9 +17,10 @@ jobs:
         with:
           python-version: 3.x
 
-      - name: Install dependencies (if needed)
-        run: pip install -r requirements.txt
-        working-directory: ${{ github.workspace }}
+      - name: Run xmap-stats.py
+        run: python xmap-stats.py
+        working-directory: ${{ github.workspace }}  # This sets the working directory to the root of your repository
+
 
       - name: Run xmap-stats.py
         run: python xmap-stats.py
