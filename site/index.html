@@ -1,1 +1,127 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Xenmaps.io</title>
+    <style>
+        body {
+            background-color: black;
+            margin: 0;
+            overflow: hidden;
+            font-family: 'Courier New', monospace;
+            color: green;
+        }
+
+        header {
+            text-align: center;
+            background-color: rgba(0, 0, 0, 0.7); /* Semi-opaque background */
+            padding: 20px;
+            position: relative;
+            z-index: 2; /* Ensure the header is in front */
+        }
+
+        h1 {
+            font-size: 24px; /* Font size for both links */
+            font-weight: bold; /* Stronger font weight */
+            margin: 0; /* Remove margin to avoid extra space */
+            color: white; /* Title text color */
+        }
+
+        .green-link {
+            color: green;
+            text-decoration: none;
+        }
+
+        .green-link:hover {
+            text-decoration: underline;
+        }
+
+        #matrix-effect {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            overflow: hidden;
+            z-index: 1; /* Ensure the falling text is behind the header */
+        }
+
+        .falling-text-container {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start; /* Left-justify */
+            justify-content: flex-start;
+        }
+
+        .falling-text {
+            white-space: nowrap;
+            opacity: 0.8;
+            animation: fall linear infinite;
+            position: absolute;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+            font-weight: bold;
+            padding: 5px; /* Add some padding for separation */
+        }
+
+        @keyframes fall {
+            0% { transform: translateY(-10vh) translateX(calc(100% * var(--rand))); opacity: 0.8; }
+            100% { transform: translateY(110vh) translateX(calc(100% * var(--rand))); opacity: 0.1; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>
+            <a class="green-link" href="https://xenmaps.io" target="_blank">Xenmaps.io</a>
+            <span style="color: white;"> | </span>
+            <a class="green-link" href="https://github.com/TreeCityWes/xenmap-stats" target="_blank">GitHub</a>
+        </h1>
+    </header>
+
+    <div id="matrix-effect">
+        <div class="falling-text-container" id="falling-text-container">
+            <!-- Falling messages will be dynamically added here -->
+        </div>
+    </div>
+</body>
+</html>
+
+<script>
+    async function fetchData() {
+        const response = await fetch('https://raw.githubusercontent.com/TreeCityWes/xenmap-stats/main/xenmaps_messages.csv');
+        const data = await response.text();
+        return data;
+    }
+
+    async function initializeMatrix() {
+        const data = await fetchData();
+        const entries = data.split('\n').slice(1); // Skip header row
+        const container = document.getElementById('falling-text-container');
+        const darkGreenShades = ['#006400', '#008000', '#228B22', '#32CD32', '#2E8B57'];
+        const brightGreenShades = ['#00FF00', '#00FF33', '#00FF66', '#00FF99', '#00FFCC'];
+
+        entries.forEach((entry, index) => {
+            if (entry.trim()) {
+                const [xenmap, message] = entry.split(',').slice(1, 3);
+                const combinedText = `<span style="color:${darkGreenShades[index % darkGreenShades.length]}">${xenmap}:</span> <span style="color:${brightGreenShades[index % brightGreenShades.length]}">${message}</span>`;
+                createFallingText(combinedText, container, index);
+            }
+        });
+    }
+
+    function createFallingText(text, container, index) {
+        const div = document.createElement('div');
+        div.innerHTML = text;
+        div.className = 'falling-text';
+        div.style.animationDuration = `${Math.random() * 10 + 5}s`; // Randomize animation duration
+        div.style.left = `${Math.random() * 160 - 80}%`; // Randomize starting horizontal position
+        div.style.fontWeight = 'bold';
+        div.style.setProperty('--rand', Math.random());
+        container.appendChild(div);
+    }
+
+    initializeMatrix();
+</script>
+</body>
+</html>
