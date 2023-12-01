@@ -33,3 +33,10 @@ jobs:
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Run Python script
       run: python xmap-stats.py
+    - name: Upload CSV and JSON files
+      uses: actions/upload-artifact@v2
+      with:
+        name: output-files
+        path: |
+          xenmaps_messages.csv
+          xenmaps_messages.json
